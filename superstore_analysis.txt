@@ -1,0 +1,51 @@
+/* =====================================================
+   SQL Project – Ecommerce Customer Data Analysis
+   Dataset: kisaraf01.ecommerce_customer_data_large
+   Author: Leroy Bonsu
+   ===================================================== */
+
+/* -----------------------------------------------------
+   Task 1: Top 5 customers by total purchases
+   ----------------------------------------------------- */
+SELECT 
+    customer_name,
+    SUM(total_purchase_amount) AS total_spent
+FROM kisaraf01.ecommerce_customer_data_large
+GROUP BY customer_name
+ORDER BY total_spent DESC
+LIMIT 5;
+
+
+/* -----------------------------------------------------
+   Task 2: Average order value by payment method
+   ----------------------------------------------------- */
+SELECT 
+    payment_method,
+    AVG(total_purchase_amount) AS avg_order_value
+FROM kisaraf01.ecommerce_customer_data_large
+GROUP BY payment_method
+ORDER BY avg_order_value DESC;
+
+
+/* -----------------------------------------------------
+   Task 3: Monthly revenue trend
+   ----------------------------------------------------- */
+SELECT 
+    EXTRACT(YEAR FROM purchase_date)  AS order_year,
+    EXTRACT(MONTH FROM purchase_date) AS order_month,
+    SUM(total_purchase_amount)        AS total_revenue
+FROM kisaraf01.ecommerce_customer_data_large
+GROUP BY EXTRACT(YEAR FROM purchase_date),
+         EXTRACT(MONTH FROM purchase_date)
+ORDER BY order_year, order_month;
+
+
+/* -----------------------------------------------------
+   Task 4: Revenue by product category
+   ----------------------------------------------------- */
+SELECT
+    product_category, 
+    SUM(total_purchase_amount) AS category_revenue
+FROM kisaraf01.ecommerce_customer_data_large
+GROUP BY product_category
+ORDER BY category_revenue DESC;
